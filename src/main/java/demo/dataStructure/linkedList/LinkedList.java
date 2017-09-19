@@ -1,4 +1,4 @@
-package Demo.DataStructure.LinkedList;
+package demo.dataStructure.linkedList;
 
 /**
  * java实现单链表

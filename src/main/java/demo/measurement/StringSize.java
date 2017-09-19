@@ -1,4 +1,4 @@
-package Demo.Measurement;
+package demo.measurement;
 
 public class StringSize {
 	public static String getPrintSize(long size) {

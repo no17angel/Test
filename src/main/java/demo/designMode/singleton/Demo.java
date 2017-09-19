@@ -1,6 +1,7 @@
-package Demo.DesignMode.Singleton;
+package demo.designMode.singleton;
 
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @Title: 单例
@@ -11,6 +12,8 @@ import java.io.IOException;
  */
 public class Demo extends Thread {
 	private int type = 0;
+	private static int count = 100; // 循环一百次，创建100次对象
+	private static CountDownLatch latch = new CountDownLatch(count);
 
 	public Demo(int type) {
 		this.type = type;
@@ -26,6 +29,9 @@ public class Demo extends Thread {
 			case 2:
 				System.out.println("懒汉" + SingletonNoThread.getInstance().hashCode());
 				break;
+			case 3:
+				System.out.println("懒汉+同步锁" + SingletonWithThread.getInstance().hashCode());
+				break;
 			default:
 				System.out.println("输入值：" + type + "，Demo不存在。");
 				break;
@@ -33,12 +39,14 @@ public class Demo extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		latch.countDown();
 	}
 
 	public static void main(String[] args) {
 		System.out.println("请输入模式对应的数字!");
 		System.out.println("1.饿汉单例模式");
 		System.out.println("2.懒汉单例模式");
+		System.out.println("3.懒汉+同步锁单例模式");
 		int n = 0;
 		try {
 			n = System.in.read();
@@ -49,13 +57,20 @@ public class Demo extends Thread {
 			e.printStackTrace();
 		}
 
-		Demo[] mts = new Demo[10];
+		Demo[] mts = new Demo[count];
 		for (int i = 0; i < mts.length; i++) {
 			mts[i] = new Demo(Integer.valueOf((char) n + ""));
 		}
-
+		long time = System.currentTimeMillis();
 		for (int j = 0; j < mts.length; j++) {
 			mts[j].start();
 		}
+		try {
+			latch.await();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		System.out.println(".................................");
+		System.out.println("耗时：" + (System.currentTimeMillis() - time) + "毫秒");
 	}
 }

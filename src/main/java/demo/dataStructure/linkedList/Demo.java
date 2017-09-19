@@ -1,4 +1,4 @@
-package Demo.DataStructure.LinkedList;
+package demo.dataStructure.linkedList;
 
 /**
  * java模拟单向链表!

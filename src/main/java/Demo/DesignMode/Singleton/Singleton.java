@@ -1,4 +1,4 @@
-package Demo.DesignMode;
+package Demo.DesignMode.Singleton;
 
 /**
  * 饿汉式单例模式

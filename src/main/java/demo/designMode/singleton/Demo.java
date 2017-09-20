@@ -33,7 +33,7 @@ public class Demo extends Thread {
 				System.out.println("懒汉+同步锁" + SingletonWithThread.getInstance().hashCode());
 				break;
 			default:
-				System.out.println("输入值：" + type + "，Demo不存在。");
+				System.out.println("输入值：" + type + "，对应Demo不存在。");
 				break;
 			}
 		} catch (Exception e) {

@@ -21,19 +21,20 @@ public class Demo extends Thread {
 
 	@Override
 	public void run() {
+		String name = Thread.currentThread().getName();
 		try {
 			switch (type) {
 			case 1:
-				System.out.println("饿汉" + Singleton.getInstance().hashCode());
+				System.out.println(name + "饿汉：" + Singleton.getInstance().hashCode());
 				break;
 			case 2:
-				System.out.println("懒汉" + SingletonNoThread.getInstance().hashCode());
+				System.out.println(name + "懒汉：" + SingletonNoThread.getInstance().hashCode());
 				break;
 			case 3:
-				System.out.println("懒汉+同步锁" + SingletonWithThread.getInstance().hashCode());
+				System.out.println(name + "懒汉+同步锁：" + SingletonWithThread.getInstance().hashCode());
 				break;
 			default:
-				System.out.println("输入值：" + type + "，对应Demo不存在。");
+				System.out.println(name + "输入值：" + type + "，对应Demo不存在。");
 				break;
 			}
 		} catch (Exception e) {
@@ -57,13 +58,10 @@ public class Demo extends Thread {
 			e.printStackTrace();
 		}
 
-		Demo[] mts = new Demo[count];
-		for (int i = 0; i < mts.length; i++) {
-			mts[i] = new Demo(Integer.valueOf((char) n + ""));
-		}
 		long time = System.currentTimeMillis();
-		for (int j = 0; j < mts.length; j++) {
-			mts[j].start();
+		Demo mts = new Demo(Integer.valueOf((char) n + ""));
+		for (int j = 0; j < count; j++) {
+			new Thread(mts, "线程"+j+"：").start();
 		}
 		try {
 			latch.await();

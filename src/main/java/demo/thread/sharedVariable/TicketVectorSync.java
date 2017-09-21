@@ -1,6 +1,8 @@
 package demo.thread.sharedVariable;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,39 +20,40 @@ public class TicketVectorSync implements Runnable {
 	private Vector<Integer> vector = new Vector<Integer>();
 	private ArrayList<Integer> listNull;
 	private ArrayList<Integer> list = new ArrayList<Integer>();
-
+	private List<String> listsync = Collections.synchronizedList(new ArrayList<String>());
+	
 	@Override
 	public void run() {
-		// 当出现竞态条件（if判断）时，vector一样不能保共享变量数据准确
-		synchronized (this) {
-			int countInt = count.incrementAndGet();
-			if (vectorNull == null) {
-				vectorNull = new Vector<Integer>();
-			}
-			if (listNull == null) {
-				listNull = new ArrayList<Integer>();
-			}
-			vectorNull.add(1);
-			if (!vector.contains(1)) {
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+		try {
+			// 当出现竞态条件（if判断）时，vector一样不能保共享变量数据准确
+			synchronized (this) {
+				int countInt = count.incrementAndGet();
+				if (vectorNull == null) {
+					vectorNull = new Vector<Integer>();
 				}
-				vector.add(1);
-			}
-			listNull.add(1);
-			if (!list.contains(1)) {
-				try {
+				if (listNull == null) {
+					listNull = new ArrayList<Integer>();
+				}
+				vectorNull.add(1);
+				if (!vector.contains(1)) {
+					Thread.sleep(100);
+					vector.add(1);
+				}
+				listNull.add(1);
+				if (!list.contains(1)) {
 					Thread.sleep(100);
 					list.add(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
 				}
+				if (!listsync.contains(1)) {
+					Thread.sleep(100);
+					listsync.add("");
+				}
+				System.out.println("次数：" + countInt + "：" + Thread.currentThread().getName() + "vectorNull.size()="
+						+ vectorNull.size() + "：" + "vector.size()=" + vector.size() + "：" + "listNull.size()="
+						+ listNull.size() + "：list.size()=" + list.size());
 			}
-			System.out.println("次数：" + countInt + "：" + Thread.currentThread().getName() + "vectorNull.size()="
-					+ vectorNull.size() + "：" + "vector.size()=" + vector.size() + "：" + "listNull.size()="
-					+ listNull.size() + "：list.size()=" + list.size());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

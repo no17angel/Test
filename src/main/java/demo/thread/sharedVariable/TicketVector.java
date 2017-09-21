@@ -1,6 +1,7 @@
 package demo.thread.sharedVariable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,6 +19,7 @@ public class TicketVector implements Runnable {
 	private Vector<Integer> vector = new Vector<Integer>();
 	private static ArrayList<Integer> listNull;
 	private static ArrayList<Integer> list = new ArrayList<Integer>();
+	private static ArrayList<Integer> listsync = (ArrayList<Integer>) Collections.synchronizedList(new ArrayList<Integer>());
 
 	@Override
 	public void run() {
@@ -43,6 +45,14 @@ public class TicketVector implements Runnable {
 			try {
 				Thread.sleep(100);
 				list.add(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		if (!listsync.contains(1)) {
+			try {
+				Thread.sleep(100);
+				listsync.add(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -25,7 +25,7 @@ public class TicketVectorSync implements Runnable {
 	@Override
 	public void run() {
 		try {
-			// 当出现竞态条件（if判断）时，vector一样不能保共享变量数据准确
+			// vector/synchronizedList 需要与 synchronized 共同使用，才能保证线程安全
 			synchronized (this) {
 				int countInt = count.incrementAndGet();
 				if (vectorNull == null) {
@@ -50,7 +50,7 @@ public class TicketVectorSync implements Runnable {
 				}
 				System.out.println("次数：" + countInt + "：" + Thread.currentThread().getName() + "vectorNull.size()="
 						+ vectorNull.size() + "：" + "vector.size()=" + vector.size() + "：" + "listNull.size()="
-						+ listNull.size() + "：list.size()=" + list.size());
+						+ listNull.size() + "：list.size()=" + list.size() + "：listsync.size()=" + listsync.size());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

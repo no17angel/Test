@@ -15,8 +15,7 @@ public class SHAUtil {
 
 	public static void main(String[] args) throws NoSuchAlgorithmException {
 		String passwordToHash = "password";
-		String salt = getSalt("SHA1PRNG");
-		System.out.println("salt = " + salt);
+		String salt = getSalt();
 
 		String securePassword = getSecurePassword(passwordToHash, salt, "SHA-1");
 		System.out.println(securePassword);
@@ -49,8 +48,8 @@ public class SHAUtil {
 	}
 
 	// Add salt
-	private static String getSalt(String salt) throws NoSuchAlgorithmException {
-		SecureRandom sr = SecureRandom.getInstance(salt);
+	private static String getSalt() throws NoSuchAlgorithmException {
+		SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
 		byte[] saltbyte = new byte[16];
 		sr.nextBytes(saltbyte);
 		return saltbyte.toString();

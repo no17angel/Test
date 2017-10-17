@@ -21,10 +21,9 @@ public class MD5Salted {
 		String securePassword = getSecurePassword(passwordToHash, salt);
 		System.out.println(securePassword); // Prints
 											// 83ee5baeea20b6c21635e4ea67847f66
-
-		String regeneratedPassowrdToVerify = getSecurePassword(passwordToHash, salt);
-		System.out.println(regeneratedPassowrdToVerify); // Prints
-															// 83ee5baeea20b6c21635e4ea67847f66
+		System.out.println(securePassword.length()); 
+		System.out.println(securePassword.substring(0, 22));
+		System.out.println(securePassword.substring(0, 22).length()); 
 	}
 
 	private static String getSecurePassword(String passwordToHash, String salt) {

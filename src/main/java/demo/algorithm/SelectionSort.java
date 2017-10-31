@@ -19,20 +19,19 @@ public class SelectionSort {
 	* @throws
 	 */
 	public static void selectionSort(int[] a) {
-		int n = a.length;
-		for (int i = 0; i < n; i++) {
-			int k = i;
-			// 找出最小值的小标
-			for (int j = i + 1; j < n; j++) {
-				if (a[j] < a[k]) {
-					k = j;
+		for (int i = 0; i < a.length; i++) {
+			int min = i;
+			// 找出最小值的下标
+			for (int j = i + 1; j < a.length; j++) {
+				if (a[j] < a[min]) {
+					min = j;
 				}
 			}
 			// 将最小值放到排序序列末尾
-			if (k > i) {
+			if (min != i) {
 				int tmp = a[i];
-				a[i] = a[k];
-				a[k] = tmp;
+				a[i] = a[min];
+				a[min] = tmp;
 			}
 		}
 	}

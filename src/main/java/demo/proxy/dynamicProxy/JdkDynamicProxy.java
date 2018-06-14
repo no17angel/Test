@@ -1,4 +1,4 @@
-package demo.proxy;
+package demo.proxy.dynamicProxy;
 
 /**
 * @Title: java动态代理
